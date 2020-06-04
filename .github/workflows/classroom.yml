@@ -1,0 +1,47 @@
+    name: GitHub Classroom Workflow
+    on: [push]
+
+    jobs:
+      build:
+        name: Autograding
+        runs-on: ubuntu-latest
+        steps:
+          # Some Haskell libraries often requires additional system dependencies (e.g. libgmp-dev, libssl-dev...).
+          # With this action, we can selectively install packages on ubuntu or macOS.
+          - name: Install OS Packages
+            uses: mstksg/get-package@v1
+            with:
+              apt-get: libgmp-dev
+              # brew: ...
+          - name: Checkout repository
+            uses: actions/checkout@v2
+          - uses: actions/setup-haskell@v1.1
+            with:
+              # ghc-version: '8.10.1' # Exact version of ghc to use
+              # cabal-version: 'latest'. Omitted, but defalts to 'latest'
+              stack-version: 'latest'
+
+          # Calculating a cache key as a MD5 hash of the `stack.yaml`
+          # We use a separate _step_ here with a dedicated `id` so we can refer back to it in other steps.
+          - name: Cache Key
+            id: cache_key
+            run: echo ::set-output name=key::$(md5sum stack.yaml | awk '{print $1}')
+
+          # We'll cache the whole `.stack` directory, which contains all the pre-built dependencies, as
+          # well as the right version of GHC corresponding to our snapshot.
+          # Cache are also OS-specific, so we prefix the cache key with the current OS' name.
+          - name: Cache Dependencies
+            id: cache
+            uses: actions/cache@v2
+            with:
+              path: ~/.stack
+              key: ${{ runner.os }}-${{ steps.cache_key.outputs.key }}
+          # Building only the snapshot is made easy with stack `--only-snapshot` option. Yet, this step is
+          # made optional and only required if we haven't found any cache corresponding to our cache key.
+          - name: Build Snapshot
+            if: steps.cache.outputs.cache-hit != 'true'
+            run: stack --no-terminal test --bench --only-snapshot
+
+          - run: stack --no-terminal test
+          # maybe since the autograding fails... that whay Post Cache Depndencies Fail too.
+          #- uses: education/autograding@v1
