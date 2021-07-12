@@ -1,7 +1,7 @@
 {
   "tests": [
     {
-      "name": "un comando stack test",
+      "name": "stack test",
       "setup": "export HOME=/home/runner",
       "run": "export HOME=/home/runner;env; ghc --version; cabal --version; stack test",
       "input": "",
