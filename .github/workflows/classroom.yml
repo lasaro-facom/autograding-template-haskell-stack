@@ -12,8 +12,8 @@
              - uses: actions/checkout@v2
              - uses: haskell/actions/setup@v1
                with:
-                  ghc-version: '9.0.1' # Exact version of ghc to use
+                  ghc-version: 'latest' # Exact version of ghc to use
                   # cabal-version: 'latest'. Omitted, but defaults to 'latest'
                   enable-stack: true
-                  stack-version: '2.7.1'
+                  stack-version: 'latest'
              - run: stack test 
