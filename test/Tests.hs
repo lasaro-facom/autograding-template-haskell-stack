@@ -7,5 +7,8 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = it "hello" $
+specs = do
+        it "Returns a Hello, Haskell! string " $
+          hello `shouldBe` "Hello, Haskell!"
+        it "Returns a Hello, Haskell! string, again " $
           hello `shouldBe` "Hello, Haskell!"
