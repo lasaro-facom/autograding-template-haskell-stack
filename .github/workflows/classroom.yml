@@ -29,10 +29,10 @@
 
              - uses: haskell/actions/setup@v1
                with:
-                  ghc-version: '8.10' # Exact version of ghc to use
-                  cabal-version: '3.4' #Omitted, but defaults to 'latest'
+                  ghc-version: 'latest' # Exact version of ghc to use
+                  #cabal-version: 'latest' #Omitted, but defaults to 'latest'
                   enable-stack: true
-                  stack-version: '2.5'
+                  #stack-version: 'latest'
 
              # Building only the snapshot is made easy with stack `--only-snapshot` option. Yet, this step is
              # made optional and only required if we haven't found any cache corresponding to our cache key.

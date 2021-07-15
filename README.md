@@ -12,7 +12,7 @@ Describe expected function definitions
 
 A file `Impl.hs` is already defined.
 It has a function with the specified signature.
-Testing the function errors out, as you can test locally by running [act]() or [stack test]() or [cabal]().
+Testing the function errors out, as you can test locally by running [act](https://github.com/nektos/act) or [stack test]() or [cabal]().
 
 Once you have fixed the code, commit and push to the repository created when you accepted the assignment.
 
