@@ -10,10 +10,38 @@
            runs-on: ubuntu-latest # or macOS-latest, or windows-latest
            steps:
              - uses: actions/checkout@v2
+
+             # Calculating a cache key as a MD5 hash of the `stack.yaml`
+             # We use a separate _step_ here with a dedicated `id` so we can refer back to it in other steps.
+             - name: Cache Key
+               id: cache_key
+               run: echo ::set-output name=key::$(md5sum stack.yaml | awk '{print $1}')
+
+             # We'll cache the whole `.stack` directory, which contains all the pre-built dependencies, as
+             # well as the right version of GHC corresponding to our snapshot.
+             # Cache are also OS-specific, so we prefix the cache key with the current OS' name.
+             - name: Cache Dependencies
+               id: cache
+               uses: actions/cache@v2
+               with:
+                 path: ~/.stack
+                 key: ${{ runner.os }}-${{ steps.cache_key.outputs.key }}
+
              - uses: haskell/actions/setup@v1
                with:
-                  ghc-version: 'latest' # Exact version of ghc to use
-                  # cabal-version: 'latest'. Omitted, but defaults to 'latest'
+                  ghc-version: '8.10' # Exact version of ghc to use
+                  cabal-version: '3.4' #Omitted, but defaults to 'latest'
                   enable-stack: true
-                  stack-version: 'latest'
-             - run: stack test 
+                  stack-version: '2.5'
+
+             # Building only the snapshot is made easy with stack `--only-snapshot` option. Yet, this step is
+             # made optional and only required if we haven't found any cache corresponding to our cache key.
+             - name: Build Snapshot
+               if: steps.cache.outputs.cache-hit != 'true'
+               run: stack --no-terminal test --bench --only-snapshot
+
+             # the actual test run
+             - name: Run the test
+               run: stack --no-terminal test
+
+

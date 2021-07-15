@@ -1,27 +1,20 @@
-# Hello World
+# Exercise Name
 
-The classical introductory exercise. Just say "Hello, World!".
+This is an Haskell github classroom autograding template.
 
-["Hello, World!"](http://en.wikipedia.org/wiki/%22Hello,_world!%22_program) is
-the traditional first program for beginning programming in a new language
-or environment.
+Describe the problem here.
 
-The objectives are simple:
+Describe expected function definitions
 
-- Write a function that returns the string "Hello, World!".
-- Run the test suite and make sure that it succeeds.
-- Submit your solution and check it at the website.
-
-If everything goes well, you will be ready to fetch your first real exercise.
-
+* Define function `hello` which takes 0 parameters and returns string `Hello, Haskell!`.
+ 
 ## Hints
 
-To complete this exercise, you need to implement the `hello` function.
+A file `Impl.hs` is already defined.
+It has a function with the specified signature.
+Testing the function errors out, as you can test locally by running [act]() or [stack test]() or [cabal]().
 
-You will find the type signature for `hello` already in place,
-but it is up to you to define the function.
-
-
+Once you have fixed the code, commit and push to the repository created when you accepted the assignment.
 
 ## Getting Started
 
