@@ -91,7 +91,7 @@ Esta função retorna a área do trapézio de bases b1 e b2 e altura h
 
 areaTriangulo
 - Entrada: b1 b2 h
-- Saída: b1*b2/2 * h
+- Saída: (b1+b2)/2 * h
 
 >>>areaTrapezio 2 4 3
 9.0
@@ -269,7 +269,7 @@ Esta função retorna -1 se os números passados como parâmetro estão em ordem
 - Saída: -1, x >= y >= z, 1 se x <= y <= z, 0 caso contrário.
 
 >>>sobeDesceBagunca 1 2 3
--1
+1
 
 >>>sobeDesceBagunca 1 3 2
 0
