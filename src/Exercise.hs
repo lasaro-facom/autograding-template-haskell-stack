@@ -1,304 +1,279 @@
 module Exercise where
 
--- Defina as seguintes funções usando equações simples.
+-- Defina os tipos das seguintes funções de acordo com as descrições.
+
 
 {-
-Esta função simplesmente retorna uma string com seu nome (ou qualquer outra string, na verdade).
-
-digaMeuNome 
-- Entrada: nada
-- Saída: String
-
->>>digaMeuNome
-"Meu Nome"
+- entrada: três números inteiros de precisão finita (Int)
+- saída: Int
 -}
-digaMeuNome = "Meu Nome"
-
-{-
-Esta função retorna a soma de 3 números.
-
-somaTresNumeros 
-- Entrada: n1, n2, n3
-- Saída: n1 + n2 + n3
-
->>>somaTresNumeros 1 2 3
-6
-
->>>somaTresNumeros 100 200 300
-600
-
--}
+somaTresNumeros :: Num a => a -> a -> a -> a
 somaTresNumeros n1 n2 n3 = n1 + n2 + n3
 
 {-
 Esta função retorna a área do quadrado de lado l
 
 areaQuadrado
-- Entrada: l
-- Saída: l**2
-
-Dica: ** é o operador de potenciação
-
->>>areaQuadrado 2
-4.0
-
->>>areaQuadrado 3
-9.0
+- Entrada: l, Float
+- Saída: l**2, Float
 -}
+areaQuadrado :: Floating a => a -> a
 areaQuadrado l = l**2
 
 {-
 Esta função retorna a área do retângulo de lado l1 e l2
 
 areaRetangulo
-- Entrada: l1 e l2
-- Saída: l1 * l2
-
->>>areaRetangulo 3 4
-
+- Entrada: l1 e l2, Floats
+- Saída: l1 * l2, Float
 -}
+areaRetangulo :: Num a => a -> a -> a
 areaRetangulo l1 l2 = l1 * l2
 
-{-
-Esta função retorna a área do círculo de raio r
-
-areaCirculo
-- Entrada: r
-- Saída: r**2 * pi
-
-Dica: pi é uma constante disponível no módulo prelude
-
->>>areaCirculo 3
-28.274333882308138
--}
-areaCirculo r = pi * r**2
-
-
-{-
-Esta função retorna a área do triângulo de base b e altura h
-
-areaTriangulo
-- Entrada: b h
-- Saída: b*h/2
-
->>>areaTriangulo 4 4
--}
-areaTriangulo a h = (a*h) / 2
-
-
-{-
-Esta função retorna a área do trapézio de bases b1 e b2 e altura h
-
-areaTriangulo
-- Entrada: b1 b2 h
-- Saída: (b1+b2)/2 * h
-
->>>areaTrapezio 2 4 3
-9.0
--}
-areaTrapezio b1 b2 h = (b1 + b2) / 2 * h
-
-
-{-
-Esta função retorna a hipotenusa do triângulo retângulo de lados b c
-
-hipotenusa
-- Entrada: b c
-- Saída: sqrt (b*b + c*c)
-
-Dica: sqrt retorna a raiz quadrada de um número
-
->>>hipotenusa 3 4
-5.0
--}
-hipotenusa b c = sqrt (b**2 + c**2)
-
-{-
-Escreva uma função de conversão de Célcius para Fahrenheit
->>>celsius2fahrenheit 0
->>>celsius2fahrenheit 100
-32.0
-212.0
--}
-celsius2fahrenheit c = c * 9 / 5 + 32 
-
-{-
-Escreva uma função de conversão de Fahrenheit para Célcius
-
->>>fahrenheit2celsius 212
-100.0
-
->>>fahrenheit2celsius 32
-0.0
-
--}
-fahrenheit2celsius f = (f - 32) * 5/9
 
 -- Defina as seguintes funções usando if then else
 {-
 Esta função retorna o maior de tres números
 
 maiorDeTres
-- Entrada: a b c
-- Saída: o maior dentre a b c
-
->>>maiorDeTres 1 2 3
-3
-
->>>maiorDeTres 3 2 1
-3
-
->>>maiorDeTres 1 3 1
-3
-
->>>maiorDeTres (-1) (-2) (-3)
--1
+- Entrada: a b c, Integer
+- Saída: o maior dentre a b c, Integer
 -}
-maiorDeTres a b c = if a >= b && a >= c then a
-                    else if b >= c then b
-                    else c
+maiorDeTres :: Ord a => a -> a -> a -> a
+maiorDeTres a b c
+  | a >= b && a >= c = a
+  | b >= c = b
+  | otherwise = c
+
+
+-- Defina as seguintes funções, incluindo a definição de tipos.
 
 {-
-Esta função indica se os números passados como parâmetro estão ordenados de forma decrescente
-
-estaoOrdenados
-- Entrada: a b c
-- Saída: True se a,b,c estiverem ordenados e False caso contrário.
-
->>>estaoOrdenados 1 2 3
-False
-
->>>estaoOrdenados 3 2 1
-True
-
->>>estaoOrdenados 1 3 2
-False
--}
-estaoOrdenados a b c = if a >= b && b >= c then True else False
-
-{-
-Esta função calcula o preço com desconto dos itens caso um número mínimo tenha sido comprado.
-
-precoComDesconto
-- Entrada: 
-    - precoUnitario: preço de um item
-    - quantidade
-    - limite: quantidade de itens que se ultrapassada levam a desconto no preço
-    - desconto: valor do desconto a ser aplicado, entre 0 e 1, por exemplo, 0.1 para 10% de desconto.
-- Saída: Valor com o desconto
-
->>>precoComDesconto 1 1 3 0.1
-1.0
-
->>>precoComDesconto 1 3 3 0.1
-3.0
-
->>>precoComDesconto 1 4 3 0.1
-3.6
--}
-precoComDesconto preco quantidade limite desconto = if preco * quantidade > limite then preco * quantidade * (1 - desconto) else preco * quantidade
-
-
-{-
-Esta função calcula calcula se o primeiro valor ganha do segundo em um jogo de pedra/tesoura/papel
+Esta função calcula quem ganha no jogo pedra/tesoura/papel
 
 pedraTesouraPapel
-- Entrada: m1 m2 - 0 é pedra, 1 é tesoura, 2 é papel.
-- Saída: True se m1 ganha e False se m2 ganha
+- Entrada: m1 m2 - "pedra" "tesoura" "papel"
+- Saída: O valor ganhador, ou "empate" no caso empate
 
->>>pedraTesouraPapel 0 1
-True
+>>>pedraTesouraPapel "pedra" "papel"
+"papel"
 
->>>pedraTesouraPapel 1 2
-True
+>>>pedraTesouraPapel "pedra" "tesoura"
+"pedra"
 
->>>pedraTesouraPapel 2 0
-True
-
->>>pedraTesouraPapel 1 0
-False
-
->>>pedraTesouraPapel 2 1
-False
-
->>>pedraTesouraPapel 0 2
-False
+>>>pedraTesouraPapel "papel" "tesoura"
+"tesoura"
 -}
-pedraTesouraPapel m1 m2 = 
-    if m1 == 0 && m2 == 1 then True
-    else if m1 == 1 && m2 == 2 then True
-    else if m1 == 2 && m2 == 0 then True
-    else False
-
--- Defina as seguintes funções usando guardas
-
-{-
-Esta função calcula calcula se o primeiro valor ganha do segundo em um jogo de pedra/tesoura/papel
-
-pedraTesouraPapelGuardas
-- Entrada: m1 m2 - 0 é pedra, 1 é tesoura, 2 é papel.
-- Saída: True se m1 ganha e False se m2 ganha
-
->>>pedraTesouraPapelGuardas 0 1
-True
-
->>>pedraTesouraPapelGuardas 1 2
-True
-
->>>pedraTesouraPapelGuardas 2 0
-True
-
->>>pedraTesouraPapelGuardas 1 0
-False
-
->>>pedraTesouraPapelGuardas 2 1
-False
-
->>>pedraTesouraPapelGuardas 0 2
-False
--}
-pedraTesouraPapelGuardas m1 m2
-  | m1 == 0 && m2 == 1 = True
-  | m1 == 1 && m2 == 2 = True
-  | m1 == 2 && m2 == 0 = True
-  | otherwise = False
-
-{-
-Esta função retorna -1 se os números passados como parâmetro estão em ordem decrescente, 1 ordem crescente, e 0 caso contrário.
-- Entrada: x y z
-- Saída: -1, x >= y >= z, 1 se x <= y <= z, 0 caso contrário.
-
->>>sobeDesceBagunca 1 2 3
-1
-
->>>sobeDesceBagunca 1 3 2
-0
-
->>>sobeDesceBagunca 3 2 1
--1
--}
-sobeDesceBagunca x y z
-    | x >= y && y >= z = -1
-    | x <= y && y <= z = 1
-    | otherwise  = 0
+pedraTesouraPapel :: String -> String -> String
+pedraTesouraPapel m1 m2
+  | m1 == "pedra" && m2 == "papel" = "papel"
+  | m1 == "pedra" && m2 == "tesoura" = "pedra"
+  | m1 == "papel" && m2 == "pedra" = "papel"
+  | m1 == "papel" && m2 == "tesoura" = "tesoura"
+  | m1 == "tesoura" && m2 == "papel" = "tesoura"
+  | m1 == "tesoura" && m2 == "pedra" = "pedra"
+  | otherwise = "empate"
 
 
 {-
-Esta função retorna a quantidade de dias no mês indicado no parâmetro. Assuma que fevereiro tem 28 dias.
-- Entrada: mes - número
-- Saída: Dias no mes
-
->>>diasMes 1
-31
-
->>>diasMes 2
-28
-
->>>diasMes 4
-30
-
+Esta função calcula a conjunção do dois parâmetros (e lógico).
 -}
-diasMes m
-    | m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12 = 31
-    | m == 2 = 28
-    | otherwise = 30
+eLógico :: Bool -> Bool -> Bool
+eLógico p1 p2 = p1 && p2
+
+{-
+Esta função calcula a disjunção do dois parâmetros (ou lógico).
+-}
+ouLógico :: Bool -> Bool -> Bool
+ouLógico p1 p2 = p1 || p2
+
+-- Defina as seguintes funções usando ++ !! take e reverse.
+
+{-
+Defina função que retorne substring de t elementos começando na posição i
+subStringDeAte "entrada1" 2 2 retorna "tr"
+
+Entrada:
+    - s: string
+    - i: inteiro
+    - t: inteiro
+-}
+subStringDeAte :: String -> Int -> Int -> String
+subStringDeAte s i t = reverse (take t (reverse (take (i + t) s)))
+
+{-
+Defina função que retorne substring com os últimos u elementos
+
+Entrada:
+    - s: string
+    - u: inteiro
+-}
+últimosU :: String -> Int -> String
+últimosU s u = reverse (take u (reverse s))
+
+{-
+Defina função que receba duas strings e retorne a resultado da concatenação das substrings de t elementos começando na posição i
+
+Entrada
+    - s1: string
+    - s2: string
+    - i: inteiro
+    - u: inteiro
+-}
+
+subStringDeAteAppend :: String -> String -> Int -> Int -> String
+subStringDeAteAppend s1 s2 i u = subStringDeAte s1 i u ++ subStringDeAte s2 i u
+
+
+
+-- Nas próximas funções, trabalharemos com definições de tipo e tuplas.
+
+{-
+Seja o tipo de dados Carta tupla em que 
+ - o primeiro elemento é o valor da carta (1,2,3,4,5,6,7,8,9,10,11,12,13) 
+ - o segundo é o naipe ("ouro", "copas", "espada", "paus").
+-}
+type Carta = (Int, String)
+
+{-
+Uma função que receba uma carta retorne seu naipe.
+
+Entrada:
+    - c1: carta
+
+Resultado: naipe da carta
+-}
+naipe :: Carta -> String
+naipe (_,n) = n
+
+{-
+Uma função que receba uma carta retorne seu valor.
+
+Entrada:
+    - c1: carta
+
+Resultado: valor da carta
+-}
+valor :: Carta -> Int
+valor (v,_) = v
+
+
+{-
+Uma função que receba duas cartas e diga se a primeira é menor que a segunda.
+Uma carta c1 é menor que uma carta c2 se valor c1 < valor2 OU se valor c1 == valor c2 e naipe c1 < c2.
+"copas" < "espada" < "ouro" < "paus"
+
+Entrada:
+    - c1, c2: Carta
+Resultado: True ou False
+-}
+
+cartaÉMenor :: Carta -> Carta -> Bool
+cartaÉMenor c1 c2 = c1 < c2
+
+{-
+Uma função que receba duas cartas e diga se a primeira é igual à segunda.
+
+Entrada:
+    - c1, c2: Carta
+Resultado: True ou False
+-}
+
+cartaÉIgual :: Carta -> Carta -> Bool
+cartaÉIgual c1 c2 = c1 == c2
+
+{-
+Uma função que receba duas cartas e diga se a primeira é maior que a segunda.
+
+Entrada:
+    - c1, c2: Carta
+Resultado: True ou False
+-}
+cartaÉMaior :: Carta -> Carta -> Bool
+cartaÉMaior c1 c2 = c1 > c2
+
+
+{-
+Uma função que receba três cartas c1 c2 c3 e diga se formam um jogo.
+- seja m1 a maior dentre as cartas c1 c2 c3
+- seja m2 a de valor mediano dentre as cartas c1 c2 c3
+- seja m3 a menor dentre as cartas c1 c2 c3
+m1 m2 e m3 formam um jogo se e somente si
+    - OU naipe m1 == naipe m2 == naipe m3 E valor m1 == valor m2 + 1 == valor m3 + 2
+    - OU naipe m1 =/= naipe m2 =/= naipe m3 =/= m1 E valor m1 == valor m2 == valor m3
+
+
+Entrada:
+    - c1, c2, c3: Carta
+Resultado: True ou False
+-}
+éJogo :: Carta -> Carta -> Carta -> Bool
+éJogo c1 c2 c3
+    |naipe c1 == naipe c2 && naipe c2 == naipe c3 && valor (maiorDeTresC c1 c2 c3) == valor (medianaDeTres c1 c2 c3) + 1 && valor (medianaDeTres c1 c2 c3) == valor (menorDeTres c1 c2 c3) + 1 = True
+    |naipe c1 /= naipe c2 && naipe c2 /= naipe c3 && naipe c3 /= naipe c2 && valor c1 == valor c2 && valor c2 == valor c3 = True
+    |otherwise = False
+
+
+maiorDeTresC :: Carta -> Carta -> Carta -> Carta
+maiorDeTresC c1 c2 c3
+    | c1 >= c2 && c1 >= c3 = c1
+    | c2 >= c3 = c2
+    | otherwise = c3
+
+menorDeTres :: Carta -> Carta -> Carta -> Carta
+menorDeTres c1 c2 c3
+    | c1 <= c2 && c1 <= c3 = c1
+    | c2 <= c3 = c2
+    | otherwise = c3
+
+cartaPraNumero :: Carta -> Int
+cartaPraNumero (v, n)
+    | n == "copas" = (v-1) * 4 + 1 
+    | n == "espada" = (v-1) * 4 + 2
+    | n == "ouro" = (v-1) * 4 + 3
+    | otherwise = (v-1) * 4 + 4
+
+numeroPraCarta :: Int -> Carta
+numeroPraCarta i
+    | (i-1) `rem` 4 == 0 = ((i-1) `div` 4 +1,"copas")
+    | (i-1) `rem` 4 == 1 = ((i-1) `div` 4 +1,"espada")
+    | (i-1) `rem` 4 == 2 = ((i-1) `div` 4 +1,"ouro")
+    | otherwise  = ((i-1) `div` 4 +1,"paus")
+
+
+medianaDeTres :: Carta -> Carta -> Carta -> Carta
+medianaDeTres c1 c2 c3 = numeroPraCarta (cartaPraNumero c1 + cartaPraNumero c2 + cartaPraNumero c3 - cartaPraNumero aMenor - cartaPraNumero aMaior)
+    where aMenor = menorDeTres c1 c2 c3
+          aMaior = maiorDeTres c1 c2 c3
+
+{-
+Defina uma função que receba duas tuplas de 3 cartas, onde a primeira carta é maior ou igual à segunda, que é maior ou igual à terceira, 
+e compare as tuplas para dizer qual é maior.
+Uma tupla t1 é menor que uma tupla t2 se e somente se
+- a primeira carta de t1 é menor que a primeira de t2 OU
+- as primeiras cartas são iguais mas a segunda carta de t1 é menor que a segunda de t2
+- as primeiras e segundas cartas são iguais mas a terceira carta de t1 é menor que a terceira de t2
+-}
+maiorMão :: (Carta, Carta, Carta) -> (Carta, Carta, Carta) -> (Carta, Carta, Carta)
+maiorMão t1 t2
+    |t1 >= t2 = t1
+    |otherwise = t2
+
+
+
+
+{-
+Defina uma função que receba duas tuplas de 3 cartas, onde a primeira carta é maior ou igual à segunda, que é maior ou igual à terceira, 
+e compare as tuplas para dizer qual ganha, ou se houve empate.
+Uma tupla t1 ganha de uma tupla t2 se 
+- t1 é um jogo mas t2 não é um jogo
+- t1 e t2 são um jogo mas t1 é maior que t2.
+- No caso de empate, retorne a tupla vazia ((0,""),(0,""),(0,""))
+-}
+
+mãoGanhadora :: (Carta, Carta, Carta) -> (Carta, Carta, Carta) -> (Carta, Carta, Carta)
+mãoGanhadora (ce1, ce2, ce3) (cd1, cd2, cd3)
+    |éJogo ce1 ce2 ce3 && not (éJogo cd1 cd2 cd3) = (ce1, ce2, ce3)
+    |not (éJogo ce1 ce2 ce3) && éJogo cd1 cd2 cd3 = (cd1, cd2, cd3)
+    |(ce1, ce2, ce3) == (cd1, cd2, cd3) = ((0,""),(0,""),(0,""))
+    |otherwise = maiorMão (ce1, ce2, ce3) (cd1, cd2, cd3)
