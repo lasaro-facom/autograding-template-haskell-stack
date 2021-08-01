@@ -99,7 +99,8 @@ Entrada:
     - t: inteiro
 -}
 subStringDeAte :: String -> Int -> Int -> String
-subStringDeAte s i t = reverse (take t (reverse (take (i + t) s)))
+subStringDeAte s i t = reverse (take maxT (reverse (take (i + maxT) s)))
+    where maxT = min t (length s - i)
 
 {-
 Defina função que retorne substring com os últimos u elementos
