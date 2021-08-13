@@ -34,11 +34,11 @@ Exemplos:
 -}
 
 multiplique :: Int -> Int -> Int
-multiplique _ 0 = 0
-multiplique x 1 = x
 multiplique x n
-    | n > 0 = x + multiplique x (n-1)
-    | otherwise = negate (x + multiplique x (negate n -1))
+    | n == 0 = 0
+    | n == 1 = x
+    | n > 1 = x + multiplique x (n-1)
+    | otherwise = negate $ multiplique x (negate n)
 
 {-
 Uma função que calcule a n-ésima potência de um número x.
