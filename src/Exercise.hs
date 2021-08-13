@@ -1,198 +1,179 @@
 module Exercise where
 
-
-{-
-Assim como Bool pode assumir os valores True e False, o tipo Naipe pode assumir um dos valores Copas, Espada, Ouro e Paus, tal que
-Copas < Espada < Ouro < Paus
-
->>>Copas > Espada
-False
-
->>> Espada > Ouro
-False
-
->>> Paus > Copas
-True
-
->>>maiorDeTres Copas Espada Paus
-Paus
-
->>>maiorDeTres Copas Copas Copas
-Copas
-
+{- 
+Nos seguintes exercícios, implemente suas soluções de forma recursiva
+Defina os tipos das funções.
 -}
-data Naipe = Copas | Espada | Ouro | Paus deriving (Ord,Eq,Show)
 
 
 {-
-Seja o tipo de dados Carta tupla em que 
- - o primeiro elemento é o valor da carta (1,2,3,4,5,6,7,8,9,10,11,12,13) 
- - o segundo é um Naipe
--}
-type Carta = (Int, Naipe)
-
-
--- Defina as seguintes funções usando apenas casamento de padrões do lado esquerdo das equações.
-
-{-
-Uma função que receba uma carta retorne seu Naipe.
+Uma função que calcule x * y
 
 Entrada:
-    - c1: carta
+    - x
+    - y
 
 Resultado: 
-    - naipe da carta
+    - x * y
 
 Exemplos:
->>>naipe (1,Ouro)
-Ouro
--}
-naipe :: Carta -> Naipe
-naipe (_,n) = n
+>>>multiplique 2 3
+6
+>>>multiplique 3 3
+9
 
+>>>multiplique 3 (-3)
+-9
+
+>>>multiplique (-3) 3
+-9
+
+>>>multiplique (-3) (-3)
+9
+
+-}
+
+multiplique :: Int -> Int -> Int
+multiplique _ 0 = 0
+multiplique x 1 = x
+multiplique x n
+    | n > 0 = x + multiplique x (n-1)
+    | otherwise = negate (x + multiplique x (negate n -1))
 
 {-
-Uma função que receba uma carta retorne seu valor.
+Uma função que calcule a n-ésima potência de um número x.
 
 Entrada:
-    - c1: carta
+    - x: base
+    - n: expoente
 
 Resultado: 
-    - valor da carta
+    - x elevado a n
 
 Exemplos:
->>>valor (1,Ouro)
-1
+>>>potência 2 3
+8
+>>>potência (-3) 2
+9
 -}
-valor :: Carta -> Int
-valor (v,_) = v
 
+potência :: Int -> Int -> Int
+potência _ 0 = 1
+potência x n = x * potência x (n-1)
 
 {-
-Uma função que receba duas cartas retorne se seus naipes são iguais.
+Uma função que calcule log base 2 de n
 
 Entrada:
-    - c1: carta
-    - c2: carta
+    - n
 
 Resultado: 
-    - naipe de c1 igual a naipe de c2?
+    - log_2 (n)
 
 Exemplos:
->>>naipeIgual (1,Ouro) (2,Ouro)
-True
->>>naipeIgual (1,Ouro) (2,Paus)
-False
--}
+>>>logBase2 100
+6
 
-naipeIgual :: Carta -> Carta -> Bool
-naipeIgual (_,c1n) (_,c2n) = c1n == c2n
+>>>logBase2 16
+4
+
+-}
+logBase2 1 = 0
+logBase2 n = 1 + logBase2 (n `div` 2)
+
 
 {-
-Uma função que receba uma carta e retorne seu valor por extenso.
+Uma função que rotacione os elementos de uma tupla n vezes.
 
 Entrada:
-    - c1: carta
+    - t: tupla de 5 inteiros.
+    - n: número de rotações a ser feito. Rotacionar à direita se n é positivo e a esquerda se n é negativo.
 
 Resultado: 
-    - valor de c1 por extenso
+    - t rotacionado n vezes.
 
 Exemplos:
->>>valorPorExtenso (1,Ouro)
-"Um"
->>>valorPorExtenso (2,Paus)
-"Dois"
->>>valorPorExtenso (12,Ouro)
-"Dama"
+>>>rotacionar (1,2,3,4,5) 2
+(4,5,1,2,3)
+>>>rotacionar (1,2,3,4,5) (-2)
+(3,4,5,1,2)
 -}
 
+rotacionar :: (b, b, b, b, b) -> Int -> (b, b, b, b, b)
+rotacionar t 0 = t
+rotacionar (u,d,t,q,c) n
+    | n > 0 = rotacionar (c,u,d,t,q) (n-1)
+    | otherwise = rotacionar (d,t,q,c,u) (n+1)
 
-valorPorExtenso :: Carta -> String
-valorPorExtenso (1,_) = "Um"
-valorPorExtenso (2,_) = "Dois"
-valorPorExtenso (3,_) = "Três"
-valorPorExtenso (4,_) = "Quatro"
-valorPorExtenso (5,_) = "Cinco"
-valorPorExtenso (6,_) = "Seis"
-valorPorExtenso (7,_) = "Sete"
-valorPorExtenso (8,_) = "Oito"
-valorPorExtenso (9,_) = "Nove"
-valorPorExtenso (10,_) = "Dez"
-valorPorExtenso (11,_) = "Valete"
-valorPorExtenso (12,_) = "Dama"
-valorPorExtenso (13,_) = "Rei"
+
 
 {-
-Uma função que receba uma carta e retorne seu naipe por extenso.
+Uma função que jogue fora os caracteres inicias de uma string s até que o restante da string se inicie com um caractere c ou que a string fique fazia.
 
 Entrada:
-    - c1: carta
+    - s: string
+    - c: caractere.
 
 Resultado: 
-    - naipe de c1 por extenso
+    - a string resultante.
 
 Exemplos:
->>>naipePorExtenso (1,Ouro)
-"Ouro"
->>>naipePorExtenso (2,Paus)
-"Paus"
->>>naipePorExtenso (12,Ouro)
-"Ouro"
+>>>jogarForaAté "Eu quis dizer, você não quis escutar." ','
+", voc\234 n\227o quis escutar."
+
+>>>jogarForaAté "Eu quis dizer, você não quis escutar." 'z'
+"zer, voc\234 n\227o quis escutar."
+
+>>>jogarForaAté "Eu quis dizer, você não quis escutar." 'v'
+"voc\234 n\227o quis escutar."
+
 -}
-naipePorExtenso :: Carta -> String
-naipePorExtenso (_,n) = show n
+
+jogarForaAté :: [Char] -> Char -> [Char]
+jogarForaAté s c
+  | 0 == length s = s
+  | s !! 0 == c = s
+  | otherwise = jogarForaAté (drop 1 s) c
+
 
 {-
-Uma função que receba três cartas e retorne um booleano dizendo se formam uma sequencia, isto é, se estão
-aparecem dentro da seguinte sequência: Espada Copas Ouro Paus Espada Copas
+A fórmula de Leibniz para pi (http://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80)
+estabelece que a constante pode ser calculada como a série
+
+pi = (4/1) - (4/3) + (4/5) - (4/7)...
+
+Implemente uma função recursiva que calcule a constante até uma quantidade n de termos.
 
 Entrada:
-    - Carta
-    - Carta
-    - Carta
+    - n: quantidade de termos
 
-Resultado: 
-    - Estão em sequência?
+Resultado:
+    - pi, calculado com n passos da série
 
 Exemplos:
->>>sequênciaDeNaipes (1,Paus) (2,Ouro) (7,Copas)
-False
 
->>>sequênciaDeNaipes (1,Paus) (7,Copas) (2,Ouro) 
-False
+>>>piDeLeibniz 1
+4.0
 
->>>sequênciaDeNaipes (1,Paus) (2,Espada) (7,Copas)
-True
+>>>piDeLeibniz 2
+2.666666666666667
 
->>>sequênciaDeNaipes (1,Espada) (2,Copas) (7,Ouro)
-True
--}
-sequênciaDeNaipes :: Carta -> Carta -> Carta -> Bool
-sequênciaDeNaipes (_,Espada) (_,Copas) (_,Ouro) = True
-sequênciaDeNaipes (_,Copas) (_,Ouro) (_,Paus) = True
-sequênciaDeNaipes (_,Ouro) (_,Paus) (_,Espada) = True
-sequênciaDeNaipes (_,Paus) (_,Espada) (_,Copas)= True
-sequênciaDeNaipes (_,_) (_,_) (_,_) = False 
+>>>piDeLeibniz 3
+3.466666666666667
 
-{-
-Uma função que recebe uma data na forma de três inteiros e retorna a da por extenso.
+>>>piDeLeibniz 2000
+3.1410926536210413
 
-Entrada:
-    - Dia
-    - Mês
-    - Ano
+>>>piDeLeibniz 3000
+3.1412593202657186
 
-Resultado
-    - Data por extenso
-    - Quando o dia for 1, usar Primeiro como extenso.
-
-Exemplos:
->>>dataPorExtenso 1 1 2001
-"Primeiro de Janeiro de 2001"
-
->>>dataPorExtenso 10 3 2010
-"Dez de Março de 2010"
 -}
 
-dataPorExtenso :: Int -> Int -> Int -> String
-dataPorExtenso dia mes ano = error "Implementar"
+piDeLeibniz :: Int -> Double
+piDeLeibniz = piDeLeibniz' (4::Double) 1
+
+piDeLeibniz' :: Double -> Int -> Int -> Double
+piDeLeibniz' piAteAgora termo contador
+    | termo == contador = piAteAgora
+    | otherwise  = piDeLeibniz' (piAteAgora + if even termo  then 4.0 / (2.0 * termoAsDouble + 1.0) else negate 4.0/(2.0* termoAsDouble + 1.0)) (termo +1) contador
+    where termoAsDouble = fromIntegral termo :: Double

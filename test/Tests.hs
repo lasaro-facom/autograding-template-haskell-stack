@@ -9,39 +9,43 @@ main = hspecWith defaultConfig specs
 specs :: Spec
 specs = do
           describe "Com casamento de padrões" $ do
-            it "Naipe 1 " $
-              naipe (1,Ouro) `shouldBe` Ouro
-            it "Naipe 2 " $
-              naipe (1,Copas) `shouldBe` Copas
-            it "Valor 1 " $
-              valor (1,Ouro) `shouldBe` 1
-            it "Valor 2 " $
-              valor (2,Copas) `shouldBe` 2
-            it "Naipe igual 1" $
-              naipeIgual (1,Ouro) (2,Ouro) `shouldBe` True
-            it "Naipe igual 2" $
-              naipeIgual (1,Ouro) (2,Paus) `shouldBe` False
-            it "Valor por extenso 1" $
-              valorPorExtenso (1,Ouro) `shouldBe` "Um"
-            it "Valor por extenso 2" $
-              valorPorExtenso (2,Ouro) `shouldBe` "Dois"
-            it "Valor por extenso 3" $
-              valorPorExtenso (12,Ouro) `shouldBe` "Dama"
-            it "Naipe por extenso 1" $
-              naipePorExtenso (1,Ouro) `shouldBe` "Ouro"
-            it "Naipe por extenso 2" $
-              naipePorExtenso (2,Paus) `shouldBe` "Paus"
-            it "Naipe por extenso 3" $
-              naipePorExtenso (12,Copas) `shouldBe` "Copas"
-            it "Sequencia de naipes 1" $
-              sequênciaDeNaipes (1,Paus) (2,Ouro) (7,Copas) `shouldBe` False
-            it "Sequencia de naipes 2" $
-              sequênciaDeNaipes (1,Paus) (7,Copas) (2,Ouro) `shouldBe` False
-            it "Sequencia de naipes 3" $
-              sequênciaDeNaipes (1,Paus) (2,Espada) (7,Copas) `shouldBe` True
-            it "Sequencia de naipes 4" $
-              sequênciaDeNaipes (1,Espada) (2,Copas) (7,Ouro) `shouldBe` True
-            it "Data por extenso 1" $
-              dataPorExtenso 1 1 2001 `shouldBe` "Primeiro de Janeiro de 2001"
-            it "Data por extenso 2" $
-              dataPorExtenso 10 3 2010 `shouldBe` "Dez de Março de 2010"
+            it "2 x 3" $
+              multiplique 2 3 `shouldBe` 6
+            it "3 x 3" $
+              multiplique 3 3 `shouldBe` 9
+            it "-3 x 3" $
+              multiplique (-3) 3 `shouldBe` -9
+            it "3 x -3" $
+              multiplique 3 (-3) `shouldBe` -9
+            it "-3 x -3" $
+              multiplique (-3) (-3) `shouldBe` 9
+            it "potência 2 3" $
+              potência 2 3 `shouldBe` 8
+            it "potência -3 2" $
+              potência (-3) 2 `shouldBe` 9
+            it "potência -3 4" $
+              potência (-3) 3 `shouldBe` (-27)
+            it "log2 100" $
+              logBase2 100 `shouldBe` 6
+            it "log2 16" $
+              logBase2 16 `shouldBe` 4
+            it "rotacionar 1 a 5, 2" $
+              shouldBe (rotacionar (1,2,3,4,5) 2) (4,5,1,2,3)
+            it "rotacionar 1 a 5, -1" $
+              shouldBe (rotacionar (1,2,3,4,5) (-2)) (3,4,5,1,2)
+            it "drop ," $
+              shouldBe (jogarForaAté "Eu quis dizer, você não quis escutar." ',') ", voc\234 n\227o quis escutar."
+            it "drop z" $
+              shouldBe (jogarForaAté "Eu quis dizer, você não quis escutar." 'z') "zer, voc\234 n\227o quis escutar."
+            it "drop v" $
+              shouldBe (jogarForaAté "Eu quis dizer, você não quis escutar." 'v') "voc\234 n\227o quis escutar."
+            it "pi 1" $
+              shouldBe (piDeLeibniz 1) 4.0
+            it "pi 2" $
+              shouldBe (piDeLeibniz 2) 2.666666666666667
+            it "pi 3" $
+              shouldBe (piDeLeibniz 3) 3.466666666666667
+            it "pi 2000" $
+              shouldBe (piDeLeibniz 2000) 3.1410926536210413
+            it "pi 3000" $
+              shouldBe (piDeLeibniz 3000) 3.1412593202657186
