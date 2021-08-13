@@ -144,7 +144,7 @@ naipePorExtenso (_,n) = show n
 
 {-
 Uma função que receba três cartas e retorne um booleano dizendo se formam uma sequencia, isto é, se estão
-aparecem dentro da seguinte sequência: Espada Copas Ouro Paus Espada Copas
+aparecem dentro da seguinte sequência: Copas Espada Ouro Paus Copas Espada
 
 Entrada:
     - Carta
