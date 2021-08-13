@@ -168,10 +168,10 @@ True
 True
 -}
 sequênciaDeNaipes :: Carta -> Carta -> Carta -> Bool
-sequênciaDeNaipes (_,Espada) (_,Copas) (_,Ouro) = True
-sequênciaDeNaipes (_,Copas) (_,Ouro) (_,Paus) = True
-sequênciaDeNaipes (_,Ouro) (_,Paus) (_,Espada) = True
-sequênciaDeNaipes (_,Paus) (_,Espada) (_,Copas)= True
+sequênciaDeNaipes (_,Copas) (_,Espada) (_,Ouro) = True
+sequênciaDeNaipes (_,Espada) (_,Ouro) (_,Paus)= True
+sequênciaDeNaipes (_,Ouro) (_,Paus) (_,Copas) = True
+sequênciaDeNaipes (_,Paus) (_,Copas) (_,Espada)= True
 sequênciaDeNaipes (_,_) (_,_) (_,_) = False 
 
 {-

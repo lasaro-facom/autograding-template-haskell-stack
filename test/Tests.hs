@@ -38,9 +38,13 @@ specs = do
             it "Sequencia de naipes 2" $
               sequênciaDeNaipes (1,Paus) (7,Copas) (2,Ouro) `shouldBe` False
             it "Sequencia de naipes 3" $
-              sequênciaDeNaipes (1,Paus) (2,Espada) (7,Copas) `shouldBe` True
+              sequênciaDeNaipes (1,Paus) (2,Espada) (7,Copas) `shouldBe` False
             it "Sequencia de naipes 4" $
-              sequênciaDeNaipes (1,Espada) (2,Copas) (7,Ouro) `shouldBe` True
+              sequênciaDeNaipes (1,Espada) (2,Copas) (7,Ouro) `shouldBe` False
+            it "Sequencia de naipes 5" $
+              sequênciaDeNaipes (1,Paus) (7,Copas)  (2,Espada) `shouldBe` True
+            it "Sequencia de naipes 6" $
+              sequênciaDeNaipes (2,Copas) (1,Espada) (7,Ouro) `shouldBe` True
             it "Data por extenso 1" $
               dataPorExtenso 1 1 2001 `shouldBe` "Primeiro de Janeiro de 2001"
             it "Data por extenso 2" $
