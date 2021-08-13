@@ -197,7 +197,7 @@ cartaÉMaior c1 c2 = c1 > c2
 {-
 Uma função que receba três cartas c1 c2 c3 e diga se formam um jogo.
 - seja m1 a maior dentre as cartas c1 c2 c3
-- seja m2 a de valor mediano dentre as cartas c1 c2 c3
+- seja m2 a mediana dentre as cartas c1 c2 c3
 - seja m3 a menor dentre as cartas c1 c2 c3
 m1 m2 e m3 formam um jogo se e somente si
     - OU naipe m1 == naipe m2 == naipe m3 E valor m1 == valor m2 + 1 == valor m3 + 2
