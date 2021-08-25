@@ -194,5 +194,54 @@ Exemplos:
 "Dez de Março de 2010"
 -}
 
+diaExtenso d
+  | d == 1 = "Primeiro"
+  | d == 2 = "Dois"
+  | d == 3 = "Três"
+  | d == 4 = "Quatro"
+  | d == 5 = "Cinco"
+  | d == 6 = "Seis"
+  | d == 7 = "Sete"
+  | d == 8 = "Oito"
+  | d == 9 = "Nove"
+  | d == 10 = "Dez"
+  | d == 11 = "Onze"
+  | d == 12 = "Doze"
+  | d == 13 = "Treze"
+  | d == 14 = "Quatorze"
+  | d == 15 = "Quinze"
+  | d == 16 = "Dezesseis"
+  | d == 17 = "Dezessete"
+  | d == 18 = "Dezoito"
+  | d == 19 = "Dezenove"
+  | d == 20 = "Vinte"
+  | d == 21 = "Vinte e um"
+  | d == 22 = "Vinte e dois"
+  | d == 23 = "Vinte e três"
+  | d == 24 = "Vinte e quatro"
+  | d == 25 = "Vinte e cinco"
+  | d == 26 = "Vinte e seis"
+  | d == 27 = "Vinte e sete"
+  | d == 28 = "Vinte e oito"
+  | d == 29 = "Vinte e nove"
+  | d == 30 = "Trinta"
+  | d == 31 = "Trinta e um"
+
+mesExtenso m
+  | m == 1 = "Janeiro"
+  | m == 2 = "Fevereiro"
+  | m == 3 = "Março"
+  | m == 4 = "Abril"
+  | m == 5 = "Maio"
+  | m == 6 = "Junho"
+  | m == 7 = "Julho"
+  | m == 8 = "Agosto"
+  | m == 9 = "Setembro"
+  | m == 10 = "Outubro"
+  | m == 11 = "Novembro"
+  | m == 12 = "Dezembro"
+
+
 dataPorExtenso :: Int -> Int -> Int -> String
-dataPorExtenso dia mes ano = error "Implementar"
+dataPorExtenso dia mes ano = diaExtenso dia ++ " de " ++ mesExtenso mes ++ " de " ++  show(ano)
+
