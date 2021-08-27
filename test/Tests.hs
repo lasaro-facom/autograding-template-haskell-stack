@@ -38,7 +38,7 @@ specs = do
               trim "Implemente uma   " `shouldBe` "Implemente uma"
 
             it "split 1" $
-              splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " ' ' `shouldBe` ["Por","exemplo,","precisamos","tirar","os","espa\231os","no","in\237cio","e","fim","dos","dados","digitados,","como","em","Jos\233","de","Abreu",""]
+              splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " ' ' `shouldBe` ["Por","exemplo,","precisamos","tirar","os","espa\231os","no","in\237cio","e","fim","dos","dados","digitados,","como","em","Jos\233","de","Abreu"]
             it "split 2" $
               splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " 'i' `shouldBe` ["Por exemplo, prec","samos t","rar os espa\231os no ","n\237c","o e f","m dos dados d","g","tados, como em Jos\233 de Abreu "]
             it "split 3" $
@@ -82,7 +82,7 @@ specs = do
 
             it "desempacote 1" $
               desempacote ["aaaa","b","cc","aa","d","eeee"] `shouldBe` "aaaabccaadeeee" 
-            it "empacote 2" $              
+            it "desempacote 2" $              
               desempacote ([]::[String]) `shouldBe` ([]::String)
             it "desempacote 3" $
               desempacote [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3],[2,2,2],[1,1,1]] `shouldBe` [1,1,12,2,2,3,3,3,4,4,4,3,3,3,2,2,2,1,1,1] 
