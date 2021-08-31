@@ -1,88 +1,84 @@
-import Test.Hspec        (Spec, it, describe, shouldBe)
+import Test.Hspec        (Spec, it, describe, shouldBe, shouldMatchList)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
 import Exercise
 
 main :: IO ()
-main = hspecWith defaultConfig specs
+main = hspecWith defaultConfig spec
 
-specs :: Spec
-specs = do
-          describe "Funções recursivas, com listas e where ou let-in" $ do
-            it "palíndromo ana" $
-              palíndromo "ana" `shouldBe` True
-            it "palíndromo jose" $
-              palíndromo "jose" `shouldBe` False
-            it "palíndromo natan" $
-              palíndromo "natan" `shouldBe` True
-            it "palíndromo natan 2" $
-              palíndromo "natan foi viajar" `shouldBe` False
-            it "palindrome 123" $
-              palindrome [1,2,3] `shouldBe` False
-            it "palindrome 12321" $
-              palindrome [1,2,3,2,1] `shouldBe` True
-            it "palindrome 123321" $
-              palindrome [1,2,3,3,2,1] `shouldBe` True
-            it "palindrome boolean" $
-              palindrome [True,False,False,True] `shouldBe` True
+spec::Spec
+spec = do
+        describe "máximo" $ do
+                it "Ordem crescente" $ do
+                        máximo [1, 2, 3, 4, 5] `shouldBe` (5 :: Int)
+                it "Ordem decrescente" $ do
+                        máximo [117, 56, 38, 11, 0] `shouldBe` (117 :: Int)
+                it "Ordem aleatória" $ do
+                        máximo [42, 11, 38, 75, 14] `shouldBe` (75 :: Int)
 
-            it "trim 1" $
-              trim "Implemente uma" `shouldBe` "Implemente uma"
-            it "trim 2" $
-              trim " Implemente uma " `shouldBe` "Implemente uma"
-            it "trim 3" $
-              trim "  Implemente uma  " `shouldBe` "Implemente uma"
-            it "trim 4" $
-              trim "   Implemente uma" `shouldBe` "Implemente uma"
-            it "trim 5" $
-              trim "Implemente uma   " `shouldBe` "Implemente uma"
+        describe "delta" $ do
+                it "delta 1" $ do
+                        delta (1,12,-13) `shouldBe` (196)
+                it "delta 2" $ do
+                        delta (2,-16,-18) `shouldBe` (400)
+                it "delta 3" $ do
+                        delta (1,3,-4) `shouldBe` (25)
+                it "delta 4" $ do
+                        delta (2,-4,0) `shouldBe` (16)
+                it "delta 5" $ do
+                        delta (1,-2,16) `shouldBe` (-60)
+                it "delta 6" $ do
+                        delta (100,0,0) `shouldBe` (0)
+        describe "raízes" $ do
+                it "raiz 1" $ do
+                        raízes (1,12,-13) `shouldBe` [1,-13]
+                it "raiz 2" $ do
+                        raízes (2,-16,-18) `shouldBe` [9,-1]
+                it "raiz 3" $ do
+                        raízes (1,3,-4) `shouldBe` [1,-4]
+                it "raiz 4" $ do
+                        raízes (2,-4,0) `shouldBe` [2,0]
+                it "raiz 5" $ do
+                        raízes (1,-2,16) `shouldBe` []
+                it "raiz 6" $ do
+                        raízes (100,0,0) `shouldBe` [0]
 
-            it "split 1" $
-              splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " ' ' `shouldBe` ["Por","exemplo,","precisamos","tirar","os","espa\231os","no","in\237cio","e","fim","dos","dados","digitados,","como","em","Jos\233","de","Abreu"]
-            it "split 2" $
-              splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " 'i' `shouldBe` ["Por exemplo, prec","samos t","rar os espa\231os no ","n\237c","o e f","m dos dados d","g","tados, como em Jos\233 de Abreu "]
-            it "split 3" $
-              splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " 'a' `shouldBe` ["Por exemplo, precis","mos tir","r os esp","\231os no in\237cio e fim dos d","dos digit","dos, como em Jos\233 de Abreu "]
+        describe "valor final" $ do
+                it "desconto 1" $ do
+                        valorFinal 100 (1,1,1930) (1,1,2000) `shouldBe` (50::Float)
+                it "desconto 2" $ do
+                        valorFinal 1000 (1,1,1930) (1,1,2000) `shouldBe` (500::Float)
+                it "desconto 3" $ do
+                        valorFinal 100 (1,1,1990) (1,1,2000) `shouldBe` (100::Float)
+                it "desconto 4" $ do
+                        valorFinal 100 (1,1,1980) (1,1,2000) `shouldBe` (100::Float)
+                it "desconto 5" $ do
+                        valorFinal 100 (2,1,1990) (1,1,2000) `shouldBe` (40::Float)
 
-            it "combina 1" $
-              combinaMetades [1,2,3,4,5,6] `shouldBe` [(1,4),(2,5),(3,6)]
-            it "combina 2" $
-              combinaMetades [1,2,3,4,5,6,7] `shouldBe` [(1,4),(2,5),(3,6)]
+        describe "filtragem" $ do
+                it "vazia" $ do
+                        filtre (Maior,3) [] `shouldBe` []
+                it "vazia" $ do
+                        filtre (Igual,3) [1,2,4] `shouldBe` []
+                it "menores" $ do
+                        filtre (Igual,3) [1,2,4] `shouldBe` []
 
-            it "descombina 1" $
-              descombinaMetades [(1,4),(2,5),(3,6)] `shouldBe`  [1,2,3,4,5,6]
-            it "descombina 2" $
-              descombinaMetades [(1,4),(2,5),(3,6),(10,11)] `shouldBe` [1,2,3,10,4,5,6,11] 
+        describe "compre" $ do
+                it "vazia 1" $ do
+                        compre ("BOVA11", 115) 100 [] `shouldMatchList` [("BOVA11", 115, 100) ]
+                it "repete 1" $ do
+                        compre ("BOVA11", 100) 100 [("BOVA11", 50, 100)] `shouldMatchList` [("BOVA11", 75, 200) ]
+                it "vazia 2" $ do
+                        compre ("VALE3", 30) 200 [("BOVA11", 50, 100)] `shouldMatchList` [("BOVA11",50, 100),("VALE3", 30, 200)]
+                it "repete 2" $ do
+                        compre ("VALE3", 40) 200 [("BOVA11", 50, 100),("VALE3", 30, 200)] `shouldMatchList` [("BOVA11",50, 100),("VALE3", 35, 400)]
 
-            it "empacote 1" $
-              empacote "aaaabccaadeeee" `shouldBe` ["aaaa","b","cc","aa","d","eeee"]
-            it "empacote 2" $              
-              empacote "" `shouldBe` []
-            it "empacote 3" $
-              empacote [1,1,12,2,2,3,3,3,4,4,4,3,3,3,2,2,2,1,1,1] `shouldBe` [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3],[2,2,2],[1,1,1]]
-
-            it "compacte 1" $
-              compacte [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3],[2,2,2],[1,1,1]] `shouldBe` [(1,2),(12,1),(2,2),(3,3),(4,3),(3,3),(2,3),(1,3)]
-            it "compacte 2" $
-              compacte ["aaaa","b","cc","aa","d","eeee"] `shouldBe` [('a',4),('b',1),('c',2),('a',2),('d',1),('e',4)]
-            it "compacte 3" $
-              compacte ([]::[String]) `shouldBe` ([]::[(Char,Int)])
-            it "compacte 4" $
-              compacte [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3]] `shouldBe` [(1,2),(12,1),(2,2),(3,3),(4,3),(3,3)]
-
-            it "descompacte 1" $
-              descompacte  [(1,2),(12,1),(2,2),(3,3),(4,3),(3,3),(2,3),(1,3)] `shouldBe` [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3],[2,2,2],[1,1,1]]
-            it "descompacte 2" $
-              descompacte [('a',4),('b',1),('c',2),('a',2),('d',1),('e',4)] `shouldBe` ["aaaa","b","cc","aa","d","eeee"]
-            it "descompacte 3" $
-              descompacte ([]::[(Char,Int)]) `shouldBe` ([]::[String])
-            it "descompacte 4" $
-              descompacte [(1,2),(12,1),(2,2),(3,3),(4,3),(3,3)] `shouldBe` [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3]] 
-
-
-            it "desempacote 1" $
-              desempacote ["aaaa","b","cc","aa","d","eeee"] `shouldBe` "aaaabccaadeeee" 
-            it "desempacote 2" $              
-              desempacote ([]::[String]) `shouldBe` ([]::String)
-            it "desempacote 3" $
-              desempacote [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3],[2,2,2],[1,1,1]] `shouldBe` [1,1,12,2,2,3,3,3,4,4,4,3,3,3,2,2,2,1,1,1] 
+        describe "venda" $ do
+                it "vazia 1" $ do
+                        venda ("BOVA11", 115) 100 [("BOVA11", 115, 100)] `shouldMatchList` []
+                it "repete 1" $ do
+                        venda ("BOVA11", 100) 100 [("BOVA11", 50, 200) ] `shouldMatchList` [("BOVA11", 50, 100)]
+                it "vazia 2" $ do
+                        venda ("VALE3", 30) 200 [("BOVA11",50, 100),("VALE3", 30, 200)] `shouldMatchList` [("BOVA11", 50, 100)]
+                it "repete 2" $ do
+                        venda ("VALE3", 40) 200 [("BOVA11",50, 100),("VALE3", 35, 400)] `shouldMatchList` [("BOVA11", 50, 100),("VALE3", 35, 200)]

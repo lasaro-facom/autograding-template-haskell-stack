@@ -1,248 +1,149 @@
 module Exercise where
 
-{- 
-Os seguintes exercícios, use listas para resolver os problemas propostos.
+import Debug.Trace ( trace )
+
+{-
+A função maximum procura retorna o maior elemento em uma lista.
+Escreva uma função com comportamento similar, recursiva.
 -}
+
+máximo :: [Int] -> Int
+máximo [] = error "Erro. Não há máximo de uma lista vazia."
+máximo [x] = x
+máximo (x:xs)
+   | x > maxTail = x
+   | otherwise = maxTail
+   where maxTail = máximo xs
 
 
 {-
-Um palíndromo é uma palavra que pode ser lida da esquerda para a direita ou da direita para a esquerda com o mesmo resultado, como por exemplo, ovo e Natan.
-O conceito pode ser estendido para frases se ignorarmos espaços, acentos e sinais de pontuação, por exemplo, "Olé! Maracujá, caju, caramelo." mas, por enquanto, estamos interessados apenas palavras palíndromas.
+A fórmula de Bhaskara permite calcular as raízes de uma equação de segundo grau
+na forma ax^2 + bx + c = 0. A resolução é normalmente dividida em duas partes, o
+cálculo do discriminante, Delta, e das raízes. O Delta é calculado pela equação
+seguinte:
+ Delta  = b^2 - 4ac
 
-Escreva uma função que teste se a entrada é uma palavra (não contém espaços).
-Assuma que a entrada não tem acentos ou pontuações e que ou todas as letras são maiúsculas ou todas são minúsculas.
+Calculado o delta, a seguinte equação calcula as raízes.
+ raiz1 = (-b + Delta^(1/2)) / 2a
+ raiz2 = (-b - Delta^(1/2)) / 2a
 
-Entrada:
-    - s - String
+Observe que:
+ Se Delta > 0, a equação do segundo grau tem 2 raízes.
+ Se Delta = 0, 1 raiz.
+ Se Delta < 0, tem 0 raízes reais.
 
-Resultado: 
-    - True se s é uma palavra palíndroma; False caso contrário.
 
-Exemplos:
->>>palíndromo "ana"
-True
->>>palíndromo "jose"
-False
+1 - Escreva uma função que receba uma tripla com os coeficientes da equação,
+isto é, (a,b,c), e retorne o valor de Delta.
 
->>>palíndromo "natan foi viajar"
-False
-
->>>palíndromo "natan"
-True
+2 - Escreva uma função que receba uma tripla com os coeficientes da equação,
+isto é, (a,b,c), retorne uma lista com as raízes da equação de segundo
+grau. Defina a função usando guardas. Utilize a função delta.
 -}
 
-palíndromo :: String -> Bool
-palíndromo s = s == reverse s
+delta :: Num a => (a, a, a) -> a
+delta (a,b,c) = b^2 - 4*a*c
 
-{-
-Na próxima semana, escreva uma função que teste se uma frase é palíndroma.
--}
-
-
-{-
-O conceito de palíndromo pode ser aplicado a qualquer lista, por exemplo de inteiros. Neste caso, [1,2,3,4,5,4,3,2,1] seria um palíndromo.
-Escreva uma função que teste se uma lista qualquer é um palíndromo.
-O tipo da função está definido para você e diz que a lista pode ser de qualquer tipo que se possa comparar com um ==
-
-Entrada:
-    - s - lista de inteiros
-
-Resultado: 
-    - True se s é uma lista palíndroma; False caso contrário.
-
-Exemplos:
->>>palindrome "ana"
-True
->>>palindrome "jose"
-False
-
->>>palindrome [1,2,3]
-False
-
->>>palindrome [True,False,False,True]
-True
-
--}
-
-palindrome :: Eq a => [a] -> Bool
-palindrome s = s == reverse s
+raízes :: (Ord t, Floating t, Show t) => (t, t, t) -> [t]
+raízes (a,b,c)
+  | d > 0 = [raiz1,raiz2]
+  | d == 0 = [raiz1]
+  | otherwise  = []
+  where d = delta (a,b,c)
+        raiz1 =  (negate b + sqrt d)/(2*a)
+        raiz2 =  (negate b - sqrt d)/(2*a)
 
 
 {-
-Frequentemente precisamos limpar dados entrados por usuários em fomulários.
-Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em " José de Abreu  "
-Algumas linguagens tem uma função trim que remove tais espaços em branco.
+Considere que o preço de uma passagem de ônibus intermunicipal pode variar dependendo
+da idade do passageiro
+- crianças menos de 10 anos pagam 40% e bebês (abaixo de 2 anos) pagam apenas 15%. 
+- pessoas com 70 anos ou mais pagam apenas 50% do preço total. 
+- os demais passageiros pagam a tarifa normal, 100%. 
 
-Implemente uma função que elimine todos os espaços em branco no início e fim de uma string.
+Faça uma função que tenha como entrada:
+- o valor total da passagem,
+- a data atual e 
+- a data de nascimento do passageiro. 
 
->>>trim "Implemente uma"
-"Implemente uma"
+Como saída, a função retorna o valor a ser pago. 
 
->>>trim " Implemente uma "
-"Implemente uma"
-
->>>trim "  Implemente uma  "
-"Implemente uma"
-
->>>trim "   Implemente uma"
-"Implemente uma"
-
->>>trim "Implemente uma   "
-"Implemente uma"
+Obs. 1: na solução, deve ser definido o tipo data para representar a tupla de inteiros (d,m,a).
+Obs. 2: assuma que as datas estão corretas.
+Obs. 3: assuma que todos os meses tem 30 dias e o ano tem 360 dias.
 -}
-trim :: String -> String
-trim s = reverse (dropWhile (== ' ') (reverse (dropWhile (== ' ') s)))
 
+
+
+type Data = (Int, Int, Int)
+
+valorFinal :: Float -> Data -> Data -> Float
+valorFinal preço (dn,mn,an) (da, ma, aa)
+   | qtdDias < dezAnos = preço * 0.4
+   | qtdDias < setentaAnos = preço
+   | otherwise = preço * 0.5
+   where dezAnos = 360*10
+         setentaAnos = 360 * 70
+         qtdDias = (da + (ma-1)*30 + (aa-1)*360) - (dn + (mn-1)*30 + (an-1)*360)
+
+
+
+
+data Filtro = Menor | Maior | Igual
 
 {-
-Eu não tenho uma historia bonitinha para esta função, então vamos direto ao ponto.
-Escreva uma função que quebre uma String em todo lugar em que aparecer um certo caractere.
+O tipo Filtro pode ter um dos três valores definidos na linha anterior.
+Escreva uma função recursiva que receba como entrada
+- tupla com Filtro f na primeira posição e inteiro i na segunda posição.
+- lista de inteiros l
 
-Entrada:
-    - l - String a ser dividida
-    - d - delimitador
-
-Saída:
-    - Lista de strings resultante da divisão.
-
->>>splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " ' '
-["Por","exemplo,","precisamos","tirar","os","espa\231os","no","in\237cio","e","fim","dos","dados","digitados,","como","em","Jos\233","de","Abreu",""]
-
->>>splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " 'i'
-["Por exemplo, prec","samos t","rar os espa\231os no ","n\237c","o e f","m dos dados d","g","tados, como em Jos\233 de Abreu "]
-
->>>splitTodos "Por exemplo, precisamos tirar os espaços no início e fim dos dados digitados, como em José de Abreu " 'a'
-["Por exemplo, precis","mos tir","r os esp","\231os no in\237cio e fim dos d","dos digit","dos, como em Jos\233 de Abreu "]
+Retorne
+- Lista com todos os inteiros em l que são menores que i, se f for Menor, maiores que i se
+f for Maior, e iguais a i, se f for Igual.
 -}
-splitTodos :: [Char] -> Char -> [[Char]]
-splitTodos l d = if d `elem` l then primeiro : splitTodos segundo d else [l]
-    where primeiro = takeWhile (/= d) l
-          segundo = dropWhile (== d) (dropWhile (/= d) l)
 
-
-
+filtre :: (Filtro,Int) -> [Int] -> [Int]
+filtre (Maior,i) l = [e | e <- l, e > i]
+filtre (Menor,i) l = [e | e <- l, e < i]
+filtre (Igual,i) l = [e | e <- l, e == i]
 
 {-
-Escreva uma função que retorne duplas formadas pelos por elementos das duas metades da lista, sendo o primeiro elemento do resultado formado pelo 
-primeiro elemento da primeira metade da lista mais o primeiro da segunda metade da lista, o segundo elemento formado pelo segundo elemento da primeira
-metade mais o segundo elemento da segunda metade e assim por diante.
+Sabendo que:
+- no mercado de ações brasileiro, ações são negociadas em lotes de 100 unidades;
+- cada ação é identificada por um nome único, o "ticker", por exemplo VALE3 ou BOVA11;
+- quando se compra um lote de ações, ele vai para a "carteira" do comprador;
+- os proprietários das ações usam o custo médio das ações para calcular lucros e prejuízos.
 
->>>combinaMetades [1,2,3,4,5,6]
-[(1,4),(2,5),(3,6)]
+Implemente as seguintes funções:
+* compre
+  - Entrada
+     + uma tupla com o ticker (String) e o preço da ação (por unidade)
+     + a quantidade de ações a comprar (múltiplo do tamanho de um lote)
+     + a carteira a atual, na forma de uma lista de tuplas com ticker e custo médio das ações.
+  - Retorna
+     + a nova carteira, corrigida pela adição das ações compradas e com preços médios atualizados.
 
->>>combinaMetades [1,2,3,4,5,6,7]
-[(1,4),(2,5),(3,6)]
+* venda
+  - Entrada
+     + uma tupla com o ticker (String) e o preço da ação (por unidade)
+     + a quantidade de ações a vender (múltiplo do tamanho de um lote)
+     + a carteira a atual, na forma de uma lista de tuplas com ticker e custo médio das ações.
+  - Retorna
+     + a nova carteira, corrigida pela remoção das ações vendidas. Se a venda não for possível,
+     a carteira permanece intacta.
+
 
 -}
 
-combinaMetades :: [a] -> [(a,a)]
-combinaMetades l = zip primeiraMetade segundaMetade
-    where (primeiraMetade, segundaMetade) = splitAt (length l `div` 2) l
+compre :: (String, Float) -> Int -> [(String, Float, Int)] -> [(String, Float, Int)]
+compre (t,p) q [] = [(t, p, q)] 
+compre c@(t,p) q (x@(tt,pt,qt):xs)
+   | t /= tt = x: compre c q xs
+   | otherwise = (tt,(pt* fromIntegral qt + p* fromIntegral q)/fromIntegral (qt+q), qt+q):xs
 
-
-{-
-Escreva uma função que reverta combinaMetades. Ou seja
->>>descombinaMetades [(1,4),(2,5),(3,6)] 
-[1,2,3,4,5,6,7]
--}
-descombinaMetades :: [(a,a)] -> [a]
-descombinaMetades l = descombinaMetadesInterno l [] []
-    where descombinaMetadesInterno [] p1 p2 = reverse p1 ++ reverse p2
-          descombinaMetadesInterno ((e1,e2):es) p1 p2 = descombinaMetadesInterno es (e1:p1) (e2:p2)
-
-
-{-
-Escreva uma função separe repetições consecutivas dentro de uma lista.
-
->>>empacote "aaaabccaadeeee"
-["aaaa","b","cc","aa","d","eeee"]
-
->>>empacote ""
-[]
-
-
->>>empacote [1,1,12,2,2,3,3,3,4,4,4,3,3,3,2,2,2,1,1,1]
-[[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3],[2,2,2],[1,1,1]]
-
--}
-
-empacote :: (Eq a) => [a] -> [[a]]
-empacote [] = []
-empacote (x:xs) = pacote:resto
-    where pacote = x:takeWhile (==x) xs
-          resto = empacote (dropWhile (==x) xs)
-
-empacote' :: (Eq a) => [a] -> [[a]]
-empacote' l
-    | null l = []
-    | otherwise  = pacote:resto
-    where
-          cabeça = head l
-          cauda = tail l
-          pacote = cabeça:takeWhile (==cabeça) cauda
-          resto = empacote (dropWhile (==cabeça) cauda)
-
-{-
-Dado uma lista empacotada, como a gerada pela função anterior, gere uma lista de duplas tal que:
-- para cada pacote haja uma dupla no resultado.
-- a dupla tem como primeiro elemento o dado repetido na lista correspondente e como segundo elemento o comprimento de tal lista.
-
->>>compacte [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3],[2,2,2],[1,1,1]]
-[(1,2),(12,1),(2,2),(3,3),(4,3),(3,3),(2,3),(1,3)]
-
->>>compacte ["aaaa","b","cc","aa","d","eeee"]
-[('a',4),('b',1),('c',2),('a',2),('d',1),('e',4)]
-
->>>compacte []
-Ambiguous type variable ‘a0’ arising from a use of ‘compacte’
-prevents the constraint ‘(Show a0)’ from being solved.
-Relevant bindings include
-  it :: [(a0, Int)]
-    (bound at /Users/lasarocamargos/ufu/github-classroom/autograding-template-haskell-stack/src/Exercise.hs:189:1)
-Probable fix: use a type annotation to specify what ‘a0’ should be.
-These potential instances exist:
-  instance Show a => Show (ZipList a)
-    -- Defined in ‘Control.Applicative’
-  instance Show NestedAtomically
-    -- Defined in ‘Control.Exception.Base’
-  instance Show NoMethodError -- Defined in ‘Control.Exception.Base’
-  ...plus 221 others
-  (use -fprint-potential-instances to see them all)
-
->>>compacte [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3]]
-[(1,2),(12,1),(2,2),(3,3),(4,3),(3,3)]
-
--}
-compacte :: [[a]] -> [(a, Int)]
-compacte l
-    | null l = []
-    | otherwise = (head cabeca, length cabeca) : compacte cauda
-        where cabeca = head l
-              cauda = tail l
-
-
-{-
-Escreva uma função que reverta a função compacte, definida acima, ou seja, tal que
->>>descompacte (compacte [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3]]) == [[1,1],[12],[2,2],[3,3,3],[4,4,4],[3,3,3]]
-True
-
--}
-
-descompacte :: [(a, Int)] -> [[a]]
-descompacte l
-    | null l = []
-    | otherwise = pacote cabeca : descompacte cauda
-        where cabeca = head l
-              cauda = tail l
-              pacote (c,cont) = replicate cont c
-
-
-{-
-Escreva uma função que reverta a função empacote, acima, definida acima, ou seja, tal que
->>>desempacote (empacote "aaaabccaadeeee") == "aaaabccaadeeee"
-True
-
--}
-
-desempacote :: [[a]] -> [a]
-desempacote = concat
+venda :: (String, Float) -> Int -> [(String, Float, Int)] -> [(String, Float, Int)]
+venda _ _ [] = [] 
+venda v@(t,_) q (x@(tt,pt,qt):xs)
+   | t /= tt = x : venda v q xs
+   | qt - q == 0 = xs
+   | otherwise = (tt, pt, qt-q):xs
