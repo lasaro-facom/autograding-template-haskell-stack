@@ -57,7 +57,8 @@ raízes (a,b,c)
 {-
 Considere que o preço de uma passagem de ônibus intermunicipal pode variar dependendo
 da idade do passageiro
-- crianças menos de 10 anos pagam 40% e bebês (abaixo de 2 anos) pagam apenas 15%. 
+- bebês (abaixo de 2 anos) pagam apenas 15%. 
+- crianças menos de 10 anos pagam 40% 
 - pessoas com 70 anos ou mais pagam apenas 50% do preço total. 
 - os demais passageiros pagam a tarifa normal, 100%. 
 
@@ -75,21 +76,23 @@ Obs. 3: assuma que todos os meses tem 30 dias e o ano tem 360 dias.
 
 
 
-type Data = (Int, Int, Int)
+type Data = (Int, Int, Int) deriving (Eq)
 
 valorFinal :: Float -> Data -> Data -> Float
 valorFinal preço (dn,mn,an) (da, ma, aa)
+   | qtdDias < doisAnos = preço * 0.15
    | qtdDias < dezAnos = preço * 0.4
    | qtdDias < setentaAnos = preço
    | otherwise = preço * 0.5
-   where dezAnos = 360*10
+   where doisAnos = 360*2
+         dezAnos = 360*10
          setentaAnos = 360 * 70
          qtdDias = (da + (ma-1)*30 + (aa-1)*360) - (dn + (mn-1)*30 + (an-1)*360)
 
 
 
 
-data Filtro = Menor | Maior | Igual
+data Filtro = Menor | Maior | Igual deriving (Eq)
 
 {-
 O tipo Filtro pode ter um dos três valores definidos na linha anterior.
