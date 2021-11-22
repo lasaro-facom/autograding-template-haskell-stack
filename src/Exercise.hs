@@ -76,7 +76,7 @@ Obs. 3: assuma que todos os meses tem 30 dias e o ano tem 360 dias.
 
 
 
-type Data = (Int, Int, Int) deriving (Eq)
+type Data = (Int, Int, Int)
 
 valorFinal :: Float -> Data -> Data -> Float
 valorFinal preço (dn,mn,an) (da, ma, aa)
