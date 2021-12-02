@@ -1,3 +1,5 @@
+![Points badge](../../blob/badges/.github/badges/points.svg)
+
 # Exercise Name
 
 This is an Haskell github classroom autograding template.
